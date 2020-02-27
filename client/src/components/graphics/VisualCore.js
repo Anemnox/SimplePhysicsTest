@@ -1,8 +1,7 @@
 import * as THREE from "three";
-import GameScene from "./GameScene";
-import GameObject from "./GameObject";
+import * as GilbertCore from "./GilbertCore";
 
-let gameScene = new GameScene();
+let gameScene = new GilbertCore.GameScene();
 
 gameScene.cameras.push(
    new THREE.PerspectiveCamera(
@@ -10,19 +9,21 @@ gameScene.cameras.push(
    )
 );
 
-gameScene.cameras[0].position.z = 5;
-
-
+gameScene.cameras[0].position.set(0, 0, 5);
+//gameScene.renderer.antialias = true;
 
 
 var geometry = new THREE.BoxGeometry(1, 1, 1);
 var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 var cube = new THREE.Mesh( geometry, material );
 
-let object = new GameObject(cube);
 
-object.dRotX = 0.01;
-object.dRotY = 0.01;
+let object = new GilbertCore.GameObject(cube);
+
+//object.rotationalVelocity.x = 0.01;
+object.rotationalVelocity.y = 0.01;
+object.rotationalVelocity.z = 0.01;
+
 
 gameScene.addDynamicObject(object);
 
