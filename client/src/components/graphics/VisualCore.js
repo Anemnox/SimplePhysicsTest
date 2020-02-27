@@ -10,22 +10,28 @@ gameScene.cameras.push(
 );
 
 gameScene.cameras[0].position.set(0, 0, 5);
+gameScene.cameras[0].rotation.set(-0.0, 0, 0);
 //gameScene.renderer.antialias = true;
-
+gameScene.scene.background = new THREE.Color( 0xDDDDDD );
 
 var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var material = new THREE.MeshBasicMaterial( { color: 0x4477aa } );
+material.wireframe = true;
+var material2 = new THREE.MeshBasicMaterial( { color: 0x222222 } );
+
 var cube = new THREE.Mesh( geometry, material );
-
-
+var plane = new THREE.BoxGeometry(5, 0.1, 5);
+var floor = new THREE.Mesh( plane, material2 );
+cube.position.set(0, 2, 0);
 let object = new GilbertCore.GameObject(cube);
+let floors = new GilbertCore.GameObject(floor);
 
-//object.rotationalVelocity.x = 0.01;
-object.rotationalVelocity.y = 0.01;
+cube.rotation.z = 1;
+object.velocity.y = -0.00;
 object.rotationalVelocity.z = 0.01;
-
-
-gameScene.addDynamicObject(object);
+console.log(cube.geometry);
+gameScene.add(object);
+gameScene.add(floors);
 
 setInterval(() => {
    gameScene.update(1);
