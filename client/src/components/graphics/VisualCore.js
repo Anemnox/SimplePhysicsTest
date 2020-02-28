@@ -22,7 +22,7 @@ var material2 = new THREE.MeshBasicMaterial( { color: 0x222222 } );
 var cube = new THREE.Mesh( geometry, material );
 var plane = new THREE.BoxGeometry(5, 0.1, 5);
 var floor = new THREE.Mesh( plane, material2 );
-cube.position.set(0, 2, 0);
+cube.position.set(0, 2  , 0);
 let object = new GilbertCore.GameObject(cube);
 let floors = new GilbertCore.GameObject(floor);
 

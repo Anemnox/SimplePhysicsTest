@@ -93,6 +93,12 @@ class GameObject {
    }
 
    updateFuture(ms) {
+      this.forces.forEach((force) => {
+         this.velocity.x += force.force.x / this.mass;
+         this.velocity.y += force.force.y / this.mass;
+         this.velocity.z += force.force.z / this.mass;
+      });
+
       let v = this.velocity.clone()
       let drv = this.rotationalVelocity.clone();
       v.multiplyScalar(ms);
@@ -109,7 +115,13 @@ class GameObject {
    }
 
    applyForce(force) {
-      
+      try {
+         let forceVector = force(this.position, this.mass);
+         if(forceVector instanceof ForceVector)
+            this.forces.push(forceVector);
+      } catch (e) {
+
+      }
    }
 
    setPosition(x, y, z) {
