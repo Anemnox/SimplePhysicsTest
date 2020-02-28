@@ -29,13 +29,13 @@ class GameScene {
    *  @param {double} ms delta time from last update
    */
    update(ms) {
+      ms *= 0.001
       this.objects.forEach((obj1, i1) => {
          if(obj1.needsUpdate) {
-            this.forceVectorField.forEach((force) => {
+            this.forceVectorField.forEach((force, i) => {
                obj1.applyForce(force);
             });
 
-            obj1.applyForce();
             obj1.updateFuture(ms);
 
             this.objects.forEach((obj2, i2) => {
@@ -72,6 +72,11 @@ class GameScene {
          this.scene.remove(object.graphicsObject);
       }
    }
+
+   addVectorField(func) {
+      if(func instanceof Function)
+         this.forceVectorField.push(func);
+   }
 }
 
 class GameObject {
@@ -98,6 +103,7 @@ class GameObject {
          this.velocity.y += force.force.y / this.mass;
          this.velocity.z += force.force.z / this.mass;
       });
+      this.forces = [];
 
       let v = this.velocity.clone()
       let drv = this.rotationalVelocity.clone();
@@ -120,7 +126,7 @@ class GameObject {
          if(forceVector instanceof ForceVector)
             this.forces.push(forceVector);
       } catch (e) {
-
+         console.error(e);
       }
    }
 
@@ -134,6 +140,20 @@ class GameObject {
       this.acceptFuture();
    }
 
+   //
+   //
+   //
+   updateCollision(geometry) {
+      let obj1 = this.geoBound.clone();
+      let obj2 = geometry.clone();
+      this.geoBound.forEach((vertice, i) => {
+         let vert = vertice.clone();
+         vert.applyEuler(this.rotation);
+         vert.add(this.position);
+
+
+      });
+   }
 }
 
 class ForceVector {
@@ -143,5 +163,5 @@ class ForceVector {
    }
 }
 
-export { GameScene, GameObject };
+export { GameScene, GameObject, ForceVector, Vector3 };
 export default null;

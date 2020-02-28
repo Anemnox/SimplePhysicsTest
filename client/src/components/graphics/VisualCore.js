@@ -27,11 +27,22 @@ let object = new GilbertCore.GameObject(cube);
 let floors = new GilbertCore.GameObject(floor);
 
 cube.rotation.z = 1;
+floors.needsUpdate = false;
+
 object.velocity.y = -0.00;
-object.rotationalVelocity.z = 0.01;
+object.rotationalVelocity.z = 0;
 console.log(cube.geometry);
 gameScene.add(object);
 gameScene.add(floors);
+
+
+gameScene.addVectorField((pos, mass) => {
+   return new GilbertCore.ForceVector(
+      new GilbertCore.Vector3(0, -0.1 * mass, 0),
+      new GilbertCore.Vector3(0, 0, 0)
+   )
+});
+
 
 setInterval(() => {
    gameScene.update(1);
