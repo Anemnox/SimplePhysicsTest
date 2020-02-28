@@ -21,6 +21,7 @@ class GameScene {
       this.cameras = [];
       this.renderer = new THREE.WebGLRenderer();
       this.objects = [];
+      this.forceVectorField = [];
    }
 
    /**
@@ -30,6 +31,11 @@ class GameScene {
    update(ms) {
       this.objects.forEach((obj1, i1) => {
          if(obj1.needsUpdate) {
+            this.forceVectorField.forEach((force) => {
+               obj1.applyForce(force);
+            });
+
+            obj1.applyForce();
             obj1.updateFuture(ms);
 
             this.objects.forEach((obj2, i2) => {
@@ -50,7 +56,6 @@ class GameScene {
             obj1.acceptFuture();
          }
       });
-
    }
 
    // Add/Remove objects from the Game Scene
@@ -101,6 +106,10 @@ class GameObject {
       let rot = this.rotation;
       this.graphicsObject.position.set(pos.x, pos.y, pos.z);
       this.graphicsObject.rotation.set(rot.x, rot.y, rot.z);
+   }
+
+   applyForce(force) {
+      
    }
 
    setPosition(x, y, z) {
